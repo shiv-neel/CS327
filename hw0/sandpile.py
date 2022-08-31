@@ -13,7 +13,7 @@ class Sandpile:
         while True:
             self.dropSandOnCenter()
             self.printTable()
-            time.sleep(0.001)
+            time.sleep(0.5)
 
     def initializeTable(self):
         for (x, y, h) in self.inputs:
@@ -51,3 +51,5 @@ class Sandpile:
 
 inputs = [(2, 2, -1), (14, 12, 5), (5, 16, 3), (12, 12, 6)]
 sandpile = Sandpile(inputs)
+
+
