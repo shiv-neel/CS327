@@ -1,8 +1,10 @@
-compile: sandpile.c
-	gcc sandpile.c -o sandpile
+all: sandpile.o sandpile clean
 
-run: sandpile
-	./sandpile
+sandpile: sandpile.o
+	gcc sandpile.o -o sandpile
+
+sandpile.o: sandpile.c
+	gcc -c sandpile.c
 
 clean:
-	rm -f sandpile
+	rm -f *.o *~
