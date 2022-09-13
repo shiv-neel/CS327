@@ -2,3 +2,4 @@
 09/06 12:56PM: Added pokemart, pokemon center, and road generation.
 09/06 11:12PM: Added tall grass random patch generation.
 09/07 8:50AM: Refined pokemart and pokemon center to generate next to a road for more intuitive gameplay. Added boulder and tree generation, as well as colors to bring the game to life.
+09/07 10:10AM: writing `Makefile` and `README.md`.

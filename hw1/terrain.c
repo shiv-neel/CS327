@@ -2,28 +2,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "terrain.h"
 
-void generate_empty_terrain(char *terrain[21][80])
+void generate_empty_terrain(char *terrain)
 {
   // initially an "empty" terrain
   for (int i = 0; i < 21; i++)
   {
     for (int j = 0; j < 80; j++)
     {
-      terrain[i][j] = ".";
+      terrain[i * 80 + j] = '.';
     }
   }
 
   // adding borders int i, j;
   for (int i = 0; i < 21; i++)
   {
-    terrain[i][0] = "%";
-    terrain[i][79] = "%";
+    terrain[i * 80] = '%';
+    terrain[i * 80 + 79] = '%';
   }
   for (int j = 0; j < 80; j++)
   {
-    terrain[0][j] = "%";
-    terrain[20][j] = "%";
+    terrain[j] = '%';
+    terrain[j + 80 * 20] = '%';
   }
 }
 
@@ -136,38 +137,40 @@ void generate_obstacles(char *terrain[21][80])
   }
 }
 
-void print_terrain(char *terrain[21][80])
+void print_terrain(char *terrain)
 {
+  printf("\033[1m");
+  printf("Loading map, this may take a few seconds...\n");
   int i, j;
   for (int i = 0; i < 21; i++)
   {
     for (int j = 0; j < 80; j++)
     {
-      if (!strcmp(terrain[i][j], "C")) // pokemon center
+      if (terrain[i * 80 + j] == 'C') // pokemon center
       {
         printf("\033[1;31m");
       }
-      else if (!strcmp(terrain[i][j], "M")) // pokemart
+      else if (terrain[i * 80 + j] == 'M') // pokemart
       {
         printf("\033[1;36m");
       }
-      else if (!strcmp(terrain[i][j], ":")) // tall grass
+      else if (terrain[i * 80 + j] == ':') // tall grass
       {
         printf("\033[0;32m");
       }
-      else if (!strcmp(terrain[i][j], "^")) // trees
+      else if (terrain[i * 80 + j] == '^') // trees
       {
         printf("\033[1;32m");
       }
-      else if (!strcmp(terrain[i][j], "#")) // roads
+      else if (terrain[i * 80 + j] == '#') // roads
       {
         printf("\033[1;33m");
       }
-      else if (!strcmp(terrain[i][j], "%")) // boulders
+      else if (terrain[i * 80 + j] == '%') // boulders
       {
         printf("\033[1;35m");
       }
-      else if (!strcmp(terrain[i][j], "@")) // player
+      else if (terrain[i * 80 + j] == '@') // player
       {
         printf("\033[1;34m");
       }
@@ -176,28 +179,23 @@ void print_terrain(char *terrain[21][80])
         printf("\033[0m");
       }
 
-      printf("%s", terrain[i][j]);
+      printf("%c", terrain[i * 80 + j]);
     }
     printf("\n");
   }
+
+  printf("\033[0m");
 }
 
-int main(int argc, char *argv[])
+void generate_terrain(char *terrain)
 {
-  printf("\033[1;35m");
-  printf("Loading map, this may take a few seconds...\n");
-  printf("\033[0m");
-  char *terrain[21][80];
   generate_empty_terrain(terrain);
 
-  generate_tall_grass(terrain);
+  // generate_tall_grass(terrain);
 
-  generate_roads(terrain);
+  // generate_roads(terrain);
 
-  generate_pokemon_center(terrain);
-  generate_pokemart(terrain);
-  generate_obstacles(terrain);
-  print_terrain(terrain);
-
-  return 0;
+  // generate_pokemon_center(terrain);
+  // generate_pokemart(terrain);
+  // generate_obstacles(terrain);
 }
