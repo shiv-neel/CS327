@@ -3,13 +3,17 @@
 #define MAP_H_
 struct map
 {
-  char *t;
+  char *terrain;
+  int x;
+  int y;
 };
 
 struct world
 {
-  struct map *map[401][401];
+  struct map **map;
 };
+
 void generate_world(struct world *w);
+void print_map(struct world *w, int i, int j);
 void free_world(struct world *w);
 #endif

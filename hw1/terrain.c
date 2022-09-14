@@ -199,3 +199,10 @@ void generate_terrain(char *terrain)
   // generate_pokemart(terrain);
   // generate_obstacles(terrain);
 }
+
+// int main(int argc, char *argv[])
+// {
+//   char *terrain = (char *)malloc(21 * 80 * sizeof(char));
+//   generate_terrain(terrain);
+//   print_terrain(terrain);
+// }
