@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "terrain.h"
+#include "map.h"
 
 void generate_empty_terrain(char *terrain)
 {
@@ -28,13 +29,13 @@ void generate_empty_terrain(char *terrain)
   }
 }
 
-void grow(char *terrain[21][80], int x, int y, int depth)
+void grow(char *terrain, int x, int y, int depth)
 {
   if (!depth)
     return;
   if (x < 79 && x > 0 && y < 20 && y > 0)
   {
-    terrain[y][x] = ":";
+    terrain[y * 80 + x] = ':';
   }
   srand(time(0));
   for (int j = -1; j <= 1; j++)
@@ -52,61 +53,52 @@ void grow(char *terrain[21][80], int x, int y, int depth)
   }
 }
 
-void generate_tall_grass(char *terrain[21][80])
+void generate_tall_grass(char *terrain)
 {
   srand(time(0));
-  int x1 = (rand() % 61) + 10;
-  int x2 = (rand() % 61) + 10;
+  int x1 = (rand() % 61) + 15;
+  int x2 = (rand() % 61) + 15;
   int depth1 = (rand() % 5) + 5;
   int depth2 = (rand() % 5) + 5;
   grow(terrain, x1, 19, depth1);
   grow(terrain, x2, 1, depth2);
 }
 
-void generate_roads(char *terrain[21][80])
+void generate_roads(char *terrain, int ns_road_idx, int ew_road_idx)
 {
-  srand(time(0));
-  int x = (rand() % 77) + 1;
-  int y = (rand() % 18) + 1;
-
-  // N-S road
-  for (int i = 0; i < 21; i++)
+  int i, j;
+  for (i = 0; i < 21; i++)
   {
-    terrain[i][x] = "#";
-  }
-  for (int j = 0; j < 80; j++)
-  {
-    terrain[y][j] = "#";
+    for (j = 0; j < 80; j++)
+    {
+      if (i == ew_road_idx || j == ns_road_idx)
+        terrain[i * 80 + j] = '#';
+    }
   }
 }
 
-void generate_pokemon_center(char *terrain[21][80])
+void generate_building(char *terrain, char c, int x, int y)
 {
+  int d = abs(x - 200) + abs(y - 200);
+  int formula = (((-45 * d) / 200) + 50);
+  int random = rand() % 100;
+  if (formula < random)
+  {
+    return; // do not generate building
+  }
+
   srand(time(0));
-  int x = (rand() % 76) + 2;
-  int y = (rand() % 17) + 2;
-  while (strcmp(terrain[y][x], ".") || strcmp(terrain[y + 1][x], ".") || strcmp(terrain[y][x + 1], ".") || strcmp(terrain[y + 1][x + 1], ".") || (strcmp(terrain[y - 1][x], "#") && strcmp(terrain[y + 2][x], "#") && strcmp(terrain[y][x - 1], "#") && strcmp(terrain[y][x + 2], "#")))
+  x = (rand() % 76) + 2;
+  y = (rand() % 17) + 2;
+  while ((terrain[y * 80 + x] != '.') || (terrain[(y + 1) * 80 + x] != '.') || (terrain[y * 80 + (x + 1)] != '.') || (terrain[(y + 1) * 80 + (x + 1)] != '.') || ((terrain[(y - 1) * 80 + x] != '#') && (terrain[(y + 2) * 80 + x] != '#') && (terrain[y * 80 + (x - 1)] != '#') && (terrain[y * 80 + (x + 2)] != '#')))
   {
     x = (rand() % 76) + 2;
     y = (rand() % 17) + 2;
   }
-  terrain[y][x] = terrain[y + 1][x] = terrain[y][x + 1] = terrain[y + 1][x + 1] = "C";
+  terrain[y * 80 + x] = terrain[(y + 1) * 80 + x] = terrain[y * 80 + (x + 1)] = terrain[(y + 1) * 80 + (x + 1)] = c;
 }
 
-void generate_pokemart(char *terrain[21][80])
-{
-  srand(time(0));
-  int x = (rand() % 76) + 2;
-  int y = (rand() % 17) + 2;
-  while (strcmp(terrain[y][x], ".") || strcmp(terrain[y + 1][x], ".") || strcmp(terrain[y][x + 1], ".") || strcmp(terrain[y + 1][x + 1], ".") || (strcmp(terrain[y - 1][x], "#") && strcmp(terrain[y + 2][x], "#") && strcmp(terrain[y][x - 1], "#") && strcmp(terrain[y][x + 2], "#")))
-  {
-    x = (rand() % 76) + 2;
-    y = (rand() % 17) + 2;
-  }
-  terrain[y][x] = terrain[y + 1][x] = terrain[y][x + 1] = terrain[y + 1][x + 1] = "M";
-}
-
-void generate_obstacles(char *terrain[21][80])
+void generate_obstacles(char *terrain)
 {
   srand(time(0));
   int numBoulders = (rand() % 10) + 5;
@@ -116,31 +108,30 @@ void generate_obstacles(char *terrain[21][80])
   {
     x = (rand() % 76) + 2;
     y = (rand() % 17) + 2;
-    while (strcmp(terrain[y][x], "."))
+    while (terrain[y * 80 + x] != '.')
     {
       x = (rand() % 76) + 2;
       y = (rand() % 17) + 2;
     }
-    terrain[y][x] = "%";
+    terrain[y * 80 + x] = '%';
   }
 
   for (int j = 0; j < numTrees; j++)
   {
     x = (rand() % 76) + 2;
     y = (rand() % 17) + 2;
-    while (strcmp(terrain[y][x], "."))
+    while (terrain[y * 80 + x] == '.')
     {
       x = (rand() % 76) + 2;
       y = (rand() % 17) + 2;
     }
-    terrain[y][x] = "^";
+    terrain[y * 80 + x] = '^';
   }
 }
 
 void print_terrain(char *terrain)
 {
   printf("\033[1m");
-  printf("Loading map, this may take a few seconds...\n");
   int i, j;
   for (int i = 0; i < 21; i++)
   {
@@ -187,22 +178,17 @@ void print_terrain(char *terrain)
   printf("\033[0m");
 }
 
-void generate_terrain(char *terrain)
+void generate_terrain(char *terrain, int ns_road_idx, int ew_road_idx)
 {
+  int x = 0;
+  int y = 0;
   generate_empty_terrain(terrain);
 
-  // generate_tall_grass(terrain);
+  generate_tall_grass(terrain);
 
-  // generate_roads(terrain);
+  generate_obstacles(terrain);
+  generate_roads(terrain, ns_road_idx, ew_road_idx);
 
-  // generate_pokemon_center(terrain);
-  // generate_pokemart(terrain);
-  // generate_obstacles(terrain);
+  generate_building(terrain, 'C', x, y);
+  generate_building(terrain, 'M', x, y);
 }
-
-// int main(int argc, char *argv[])
-// {
-//   char *terrain = (char *)malloc(21 * 80 * sizeof(char));
-//   generate_terrain(terrain);
-//   print_terrain(terrain);
-// }

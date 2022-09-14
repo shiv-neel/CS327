@@ -40,10 +40,38 @@ int queue_enqueue(queue_t *q, int data)
   return 0;
 }
 
-int queue_dequeue(queue_t *q, int *data) {}
-int queue_head(queue_t *q) {}
-int queue_size(queue_t *q) {}
-int queue_isEmpty(queue_t *q) {}
+int queue_dequeue(queue_t *q, int *data)
+{
+  node_t *temp;
+  if (q->head)
+  {
+    temp = q->head;
+    q->head = q->head->next;
+
+    free(q->head);
+
+    return 0;
+  }
+  return 1;
+}
+
+int queue_head(queue_t *q, int *data)
+{
+  if (!q->head)
+  {
+    return 1;
+  }
+  *data = q->head->data;
+}
+int queue_size(queue_t *q)
+{
+  return q->size;
+}
+int queue_isEmpty(queue_t *q)
+{
+  return (q->size == 0);
+}
 int main(int argc, char *argv[])
 {
+  struct
 }

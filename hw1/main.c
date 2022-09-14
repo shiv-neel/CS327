@@ -6,13 +6,43 @@
 int main(int argc, char *argv[])
 {
 
-  // char *terrain = malloc(21 * 80 * sizeof(char));
-
-  // generate_empty_terrain(terrain);
-  // print_terrain(terrain);
-
   struct world *w = (struct world *)malloc(sizeof(struct world));
-  generate_world(w);
-  print_map(w, 0, 0);
+  w->x = 200;
+  w->y = 200;
+  generate_empty_world(w);
+  print_map(w, w->x, w->y);
+  // fly_to(w, 4, 5);
+  // fly_to(w, 72, -50);
+  // fly_to(w, 4, 5);
+  // display_north(w);
+  char input = 'a';
+  int x, y;
+
+  while (input != 'q')
+  {
+    scanf("%c", &input);
+    if (input == 'n')
+    {
+      display_north(w);
+    }
+    else if (input == 's')
+    {
+      display_south(w);
+    }
+    else if (input == 'w')
+    {
+      display_west(w);
+    }
+    else if (input == 'e')
+    {
+      display_east(w);
+    }
+    else if (input == 'f')
+    {
+      scanf("%d %d", &x, &y);
+      fly_to(w, x, y);
+    }
+  }
+
   return 0;
 }
