@@ -55,7 +55,7 @@ void generate_empty_world(struct world *w)
   }
 
   w->map = matrix;
-  generate_terrain(w->map[w->x][w->y].terrain, w->map[w->x][w->y].ns_road_idx, w->map[w->x][w->y].ew_road_idx);
+  generate_terrain(&w->map[w->x][w->y]);
 }
 
 void print_map(struct world *w, int x, int y)
@@ -74,7 +74,7 @@ void display_north(struct world *w)
   }
   if (!(w->map[(w->y) - 1][(w->x)].terrain[0]))
   {
-    generate_terrain(w->map[(w->y) - 1][(w->x)].terrain, w->map[(w->y) - 1][(w->x)].ns_road_idx, w->map[(w->y) - 1][(w->x)].ew_road_idx);
+    generate_terrain(&w->map[(w->y) - 1][(w->x)]);
   }
   print_map(w, (w->x), (w->y) - 1);
   w->y -= 1;
@@ -89,7 +89,7 @@ void display_south(struct world *w)
   }
   if (!(w->map[(w->y) + 1][(w->x)].terrain[0]))
   {
-    generate_terrain(w->map[(w->y) + 1][(w->x)].terrain, w->map[(w->y) + 1][(w->x)].ns_road_idx, w->map[(w->y) + 1][(w->x)].ew_road_idx);
+    generate_terrain(&w->map[(w->y) + 1][(w->x)]);
   }
   print_map(w, (w->x), (w->y) + 1);
   w->y += 1;
@@ -104,7 +104,7 @@ void display_west(struct world *w)
   }
   if (!(w->map[(w->y)][(w->x) - 1].terrain[0]))
   {
-    generate_terrain(w->map[(w->y)][(w->x) - 1].terrain, w->map[(w->y)][(w->x) - 1].ns_road_idx, w->map[(w->y)][(w->x) - 1].ew_road_idx);
+    generate_terrain(&w->map[(w->y)][(w->x) - 1]);
   }
   print_map(w, (w->x) - 1, w->y);
   w->x -= 1;
@@ -119,7 +119,7 @@ void display_east(struct world *w)
   }
   if (!(w->map[(w->y)][(w->x) + 1].terrain[0]))
   {
-    generate_terrain(w->map[(w->y)][(w->x) + 1].terrain, w->map[(w->y)][(w->x) + 1].ns_road_idx, w->map[(w->y)][(w->x) + 1].ew_road_idx);
+    generate_terrain(&w->map[(w->y)][(w->x) + 1]);
   }
   print_map(w, (w->x) + 1, w->y);
   w->x += 1;
@@ -136,7 +136,7 @@ void fly_to(struct world *w, int x, int y)
   }
   if (!(w->map[y][x].terrain[0]))
   {
-    generate_terrain(w->map[y][x].terrain, w->map[y][x].ns_road_idx, w->map[y][x].ew_road_idx);
+    generate_terrain(&w->map[y][x]);
   }
   print_map(w, x, y);
   w->x = x;

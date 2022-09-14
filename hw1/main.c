@@ -23,23 +23,28 @@ int main(int argc, char *argv[])
     scanf("%c", &input);
     if (input == 'n')
     {
+      printf("travelling north...\n");
       display_north(w);
     }
     else if (input == 's')
     {
+      printf("travelling south...\n");
       display_south(w);
     }
     else if (input == 'w')
     {
+      printf("travelling west...");
       display_west(w);
     }
     else if (input == 'e')
     {
+      printf("travelling east...\n");
       display_east(w);
     }
     else if (input == 'f')
     {
       scanf("%d %d", &x, &y);
+      printf("flying to (%d, %d)...\n", x, y);
       fly_to(w, x, y);
     }
   }

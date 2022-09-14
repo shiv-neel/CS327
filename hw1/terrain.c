@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "terrain.h"
 #include "map.h"
+#include "terrain.h"
 
 void generate_empty_terrain(char *terrain)
 {
@@ -77,19 +77,19 @@ void generate_roads(char *terrain, int ns_road_idx, int ew_road_idx)
   }
 }
 
-void generate_building(char *terrain, char c, int x, int y)
+void generate_building(char *terrain, char c, int map_x, int map_y)
 {
-  int d = abs(x - 200) + abs(y - 200);
+  srand(time(0));
+  int d = abs(map_x - 200) + abs(map_y - 200);
   int formula = (((-45 * d) / 200) + 50);
   int random = rand() % 100;
-  if (formula < random)
+  if (formula > random)
   {
     return; // do not generate building
   }
 
-  srand(time(0));
-  x = (rand() % 76) + 2;
-  y = (rand() % 17) + 2;
+  int x = (rand() % 76) + 2;
+  int y = (rand() % 17) + 2;
   while ((terrain[y * 80 + x] != '.') || (terrain[(y + 1) * 80 + x] != '.') || (terrain[y * 80 + (x + 1)] != '.') || (terrain[(y + 1) * 80 + (x + 1)] != '.') || ((terrain[(y - 1) * 80 + x] != '#') && (terrain[(y + 2) * 80 + x] != '#') && (terrain[y * 80 + (x - 1)] != '#') && (terrain[y * 80 + (x + 2)] != '#')))
   {
     x = (rand() % 76) + 2;
@@ -178,10 +178,14 @@ void print_terrain(char *terrain)
   printf("\033[0m");
 }
 
-void generate_terrain(char *terrain, int ns_road_idx, int ew_road_idx)
+void generate_terrain(struct map *m)
 {
-  int x = 0;
-  int y = 0;
+  int x = m->x;
+  int y = m->y;
+  int ns_road_idx = m->ns_road_idx;
+  int ew_road_idx = m->ew_road_idx;
+  char *terrain = m->terrain;
+
   generate_empty_terrain(terrain);
 
   generate_tall_grass(terrain);
