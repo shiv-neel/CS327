@@ -1,3 +1,7 @@
+// header guard, prevents multiple inclusions of the file
+#ifndef QUEUE_H
+#define QUEUE_H
+
 // typedef <old type name> <new type name>
 typedef struct node node_t;
 
@@ -20,3 +24,5 @@ int queue_dequeue(queue_t *q, int *data);
 int queue_head(queue_t *q, int *data);
 int queue_size(queue_t *q);
 int queue_isEmpty(queue_t *q);
+
+#endif

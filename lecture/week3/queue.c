@@ -71,7 +71,12 @@ int queue_isEmpty(queue_t *q)
 {
   return (q->size == 0);
 }
+
+int strcmp(const char *s1, const char *s2)
+{
+}
+
 int main(int argc, char *argv[])
 {
-  struct
+  return 0;
 }

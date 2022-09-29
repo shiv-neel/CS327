@@ -6,7 +6,6 @@
 
 void generate_empty_world(struct world *w)
 {
-  printf("here\n");
   int i, j;
   struct map **matrix = (struct map **)malloc(401 * sizeof(struct map *));
 
@@ -25,7 +24,7 @@ void generate_empty_world(struct world *w)
     }
   }
 
-  // setting psuedorandom horizontal roads for each row
+  // setting random horizontal roads for each row of world
   srand(time(0));
   for (i = 0; i < 401; i++)
   {
@@ -37,7 +36,7 @@ void generate_empty_world(struct world *w)
     }
   }
 
-  // setting psuedorandom vertical rows for each col
+  // setting random vertical rows for each col of world
 
   srand(time(0));
   for (j = 0; j < 401; j++)
@@ -61,7 +60,7 @@ void generate_empty_world(struct world *w)
 void print_map(struct world *w, int x, int y)
 {
   printf("Loading map, this may take a few seconds...\n");
-  print_terrain(w->map[y][x].terrain);
+  print_terrain(&w->map[y][x]);
   printf("(%d, %d)\n", x - 200, y - 200);
 }
 

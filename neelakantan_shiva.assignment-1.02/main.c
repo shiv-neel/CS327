@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "terrain.h"
 #include "map.h"
+#include "terrain.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,10 +11,6 @@ int main(int argc, char *argv[])
   w->y = 200;
   generate_empty_world(w);
   print_map(w, w->x, w->y);
-  // fly_to(w, 4, 5);
-  // fly_to(w, 72, -50);
-  // fly_to(w, 4, 5);
-  // display_north(w);
   char input = 'a';
   int x, y;
 

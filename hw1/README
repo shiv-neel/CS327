@@ -1,5 +1,0 @@
-This project contains `terrain.c`, a file that builds a pokemon terrain map according to hw1 specifications and then prints it to the console with colors.
-
-To view the terrain, simply run `make terrain`, and then run the compiled file `./terrain`. 
-
-To remove any generated files, run `make clean`.

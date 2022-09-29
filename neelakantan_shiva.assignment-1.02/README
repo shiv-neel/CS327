@@ -1,0 +1,5 @@
+This project contains a pokemon game playable via the command line. Each map's terrain is defined in `terrain.c`, and the entire world of map is generated in `map.c`. `main.c` deals with user input, and calls all other files. 
+
+Please note that some maps may take a few seconds to render to the console.
+
+To run this project, first run `make` in the terminal, and then run `./main` to play the game. 

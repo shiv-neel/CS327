@@ -1,0 +1,10 @@
+09/05 5:32PM: Created initial functions to generate and print empty terrain
+09/06 12:56PM: Added pokemart, pokemon center, and road generation
+09/06 11:12PM: Added tall grass random patch generation
+09/07 8:50AM: Refined pokemart and pokemon center to generate next to a road for more intuitive gameplay. Added boulder and tree generation, as well as colors to bring the game to life
+09/07 10:10AM: writing initial `Makefile` and `README`
+09/12 1:34AM: defining structs for world and map, dealing with pointers
+09/12 5:20PM: creating methods for traversing world
+09/13 4:44PM: debugging pointer and malloc issues
+09/13 8:19PM: reducing building spawning for maps as we travel farther outwards
+09/14 8:08PM: adding main.c code to take in input, code cleanup and minor refactors
